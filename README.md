@@ -1,148 +1,83 @@
-# Simple express demo
-
-> Express: fast, unopinionated, minimalist web framework for Node.js
-
-This project shows a simple express server serving a single HTML page and using `express.static` to serve static files.
-
-Check out the [express documentation](https://expressjs.com/) for more information.
+https://www.youtube.com/watch?v=EAuM0kp-w_k
 
 
-DIAGRAM
+today 
 
-LIVE NOTES
+Validation    	-    Processing
 
-Payment Status Handling.
+(RestTemplate)
 
-Status:
-CREATED. INITIATED. PENDING. SUCCESS. FAILED.
-
-
-Start coding, 
-APIs of processing service
-Payment Status Handling
+Engine
+	.exchange()
 
 
-RestController, 
-Pojo
-API 
+----------
 
-POST /v1/payments
-createPayment(Pojo)
-	convert DTO
-	invoke service with DTO
-	DAO insert record in DB with Created status.
+
+To integrate this Engine in to functional code.
+
+
+
+1. Do all validation rules
+
+2. API call to processing service for CreateTxn
+3. Api call2 for initiate txn
+
+
+1. From validation PaymentServiceImpl, we are able to invoke HttpEngine for making api call.
+2. Create HttpRequest obj with below data. Populate in PaymentServiceImpl. Pass this HttpRequest to engine class, and use this data for making exchange method call.
+
+	String url;
+	HttpMethod method;
+	HttpHeaders headers;
+	String requestBody;
+
+3. Provide application data  & remove hardcoding PaymentServiceImpl
+
+
+4. Response processing
+	1. Success Response
+		Check if response is 201, then convert the received json into equivalent java object structure.
+		- Use the java object for further business logic
+
+	2. Failure Response
+
+		4xx failure
+		5xx failure
+		Any generate exception failure (service is down)
+
 	
 
+		HttpServerErrorException
+		HttpClientErrorException
 
+		5 types
 
-transaction
+		1xx - INformation
+		3xx - Redirection
 
-=====
-Code a little, test a little
-
-1. Write your controller + with 1 createPayment endpoint
-	Logging
-
-2. 
-
-Request JSON
-{
-    "userId": "101",
-    "paymentMethodId": 1,
-    "providerId": 1,
-    "paymentTypeId": 1,
-    "amount": 150.75,
-    "currency": "USD",
-    "txnStatusId": 1,
-    "merchantTransactionReference": "MERCHANT12345",
-    "txnReference": "TXN67890"
-}
-
-
-Change userId to varchar
-`userId` varchar(50) NOT NULL,
-
-
-"txnReference" - which service should generate this.
-	validation or processing
-
-How to generate unique value for this "txnReference"
-	//TODO
-
-
-Our Java object structure, might have more fields, but in request, have only that which you need for processing.
-
-
-.pojo (incoming request)
-Transaction
-
-.dto
-TransactionDTO
-
-
-For above scenario we have a practical situation where incoming pojo structure should be different than TransactionDTO
+		2xx - Success
+		4xx - Client
+		5xx - Server
 
 
 
--> Create TransactionDTO, use ModelMapper to map pojo to DTO.
-
-
--> Service
--> Dao
-
-
-PaymentStatusService
-PaymentStatusServiceImpl
-
-
-PaymentService
-PaymentServiceImpl
+- return ResponseENtity object to the invoker, and let invoker handle the response processing logic.
 
 
 
-
-to work with DB, Entity classes.
-
-
-.entity
-TransactionEntity
-
-dto => entity
+The errors coming from upcoming server, should be propagated back to invoker.
+	http status code
+	errorCode
+	errorMessage
 
 
 
-TODO
-Code ExceptionHandling in processing service aswell.
+AWS RDS
+Setup Redis in AWS
+AWS SecretsManager or sensitive data
+	DB password
 
 
+/initiate API
 
-TransactionStatusHandler
-	processStatus
-
-	CreateStatusHandler
-		
-	InitiatedStatusHandler
-
-	PendingStatusHandler
-	
-	SuccessStatusHandler
-	
-	FailedStatusHandler
-
-Factory Design Pattern
-	TransactionStatusHandler method(input)
-
-
-
-PSSImpl
-
-
-TransactionStatusHandler
-CreateStatusHandler implements TransactionStatusHandler
-
-Get access to object of CreateStatusHandler & call processMethod
-
-Factory
-
-
-TransactionStatusFactory	
