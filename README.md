@@ -1,183 +1,79 @@
-13Dec: https://www.youtube.com/watch?v=7LxjJTuQYuc
-
-Circuit Breaker.
-	Context
-	Practically.
-
-
-Usecase / functional Async communication 
-	Message broker
-
---------- Sprint2
-
-
-Sprint3
-	Week7 - LIVE
-	Week8 - Complete Demos & Tasks.
-
-Extend 4 months
-	60% new feature / new functionality 
-
-
-6Jan
-
-
-27Dec - LWD of internship
-	Demo - Completion Letter
-
-
-	70% - 5 demos are mandatory
-	50-70 - 7 demos
-	< 50% - 9 demos
-
-Only give 1 attendance per day.
-
-
-Each demo of 30mins. Concept + Coding - share screen..
-
-28-29Dec - Completion Letter 
-
-After this.. 
-Next weekend, your completion letter will be processed - 27Dec
-
-
-----------------
-
-
-
-Circuit Breaker (Reslience4j)
-
-
-By nature, service1 always calls service2.
-However if you know that service 2 is failing for all your request, then making call to service 2 is waste of network resource & time.
-Rather, is service1 can already know that service2 is down, then instead of calling service2, service1 will return a dummy response back to invoker.
-
-
-States / Status
--------------
-CLOSED
-	all validation API reaches processing
-OPEN
-HALF_OPEN
-
-
-
-Primary:
-	spring-cloud-starter-circuitbreaker-resilience4j
-	spring-aop
-
-
-	actuator (health monitoring)
-
-
-
-Validation => Processing
-  Enable CircuitBreaker
-
-
-How CB counts failure.
-	- When your method throws Exception.
-	- Its counted as failure, and used for running CB logic (CLOSED, OPEN, HALF_OPEN)
-
-
-
-Which kind of errors should be considered for CB calculation:
-	1. Getting exception when you call destination.
-	2. Getting 503 Service_unavailable response from desination
-
-	- The errors where destination service was not able to respond, that should be considered.
-	- The errors where you got meaningful responses from destination, that should be considered proper & processed in your system (don't throw exception from your method)
-
-
-
-1. The method where you make external API call, there use @CircuitBreaker
-2. Throw exception from this method, then its counted by @CircuitBreaker logic.
-	2 cases like covered above. (Exception box + 503 check)
-3. When exception thrown, then automatically fallback will be invoked.
-4. In fallback, you can handle error & create proper error response to return. Or use existing ControllerAdvice related exception handling.
-
-======
-
-
-Property file configuration.
-	
-
-Add chrome extension for Json Formatter
-
-1. processing service is down.
-
-2. validation api call.
-
-
-1. Got 503
-2. CB is calculating failures ("failedCalls": 1)
-
-
-
-
-
-Count based, count every API call we are making.
-Consider the last 10api behaviour.
-
-out of these 10, if 40% is failed, then change status from CLOSED to OPEN
-
-minimumNumberOfCalls=5
-	Once 5 is reached, then CB checks if failure is meeting the errorthreshold, if yes, then change status to CLOSED=>OPEN. If not continue to be in closed.
-
-
-
-CLOSED => OPEN
-
-OPEN:
-	don't call processing service, rather return from fallback.
-
-
-HALF_OPEN
-
-OPEN => HALF_OPEN
-automaticTransitionFromOpenToHalfOpenEnabled=true
-waitDurationInOpenState=60s
-
-
-----
-permittedNumberOfCallsInHalfOpenState=2
-
-
-
-Half open:
-	Make Http API call attempt
-	HttpServiceEngine - Making HTTP request
-	Fallback
-	ControllerAdvice
-
-
-OPEN
-	Fallback
-	ControllerAdvice
-
-
-
-Processing:
-	- all status handler
-	- duplication status update is blocked
-		- if final status is SUCCESS / FAILED, then don't update.
-	- TxnLog implementation
-
-
-validation service & processing code.
-
-
-1. Number of demos supposed to complete.
-End of internship - code you have upload in google drive. 
-
-Attendance
-Demo
-Code
-
-less than average
-
-Average
-
-Above average
-
-Very high positive.
+✅ W6D2 - Coding - Success & Failure Handling during API Call [10Dec]
+Recording: 
+https://www.youtube.com/watch?v=EAuM0kp-w_k
+Notes: 
+https://docs.google.com/document/d/1-9SuijTOT33C-cytgm2bkwlSee99OAa2nQr0vofDarw/edit?usp=drive_link
+Attendance Code: 6252
+https://docs.google.com/forms/d/e/1FAIpQLSfMDwrjYRLgNDJp7dg2Dw5lxGNm8iBeXl21iWYaFIgy_M1EYQ/viewform?usp=sf_link
+Reference links:
+NA
+
+✅ W6D3 NO LIVE - Please Complete Demos & Tasks
+
+
+✅ W6D4 - Appling running in AWS - EC2 - RDS - Redis - Secrets Manager [12Dec]
+Recording: 
+https://www.youtube.com/watch?v=hzKF3H5L-1Y
+Notes: 
+https://docs.google.com/document/d/1p3qaCv0TBhvgdJ3MBUiLgGLGDRV_hhfVEX07kPrrpa8/edit?usp=drive_link
+Attendance Code: 9797
+https://docs.google.com/forms/d/e/1FAIpQLSfMDwrjYRLgNDJp7dg2Dw5lxGNm8iBeXl21iWYaFIgy_M1EYQ/viewform?usp=sf_link
+Reference links:
+Working with AWS - EC2, RDS, Secrets Manager
+https://docs.google.com/document/d/1LChhQD8ChikGRZizdZ2gBM3bcf1UnmPn/edit?usp=sharing&ouid=102780586646604311043&rtpof=true&sd=true
+Working with Redis
+https://docs.google.com/document/d/1XNWqE08AZCx3Rk5satSxwJ2TlFtUcn4LWVnbUK299l0/edit?usp=sharing
+
+✅ W6D5 - Circuit breaker using Resilience4j [13Dec]
+Recording: 
+https://www.youtube.com/watch?v=7LxjJTuQYuc
+Notes: 
+https://docs.google.com/document/d/1yFZX7UDBM8rAg0iSvnjRtZ2lVq98KDHlixDNPhhu170/edit?usp=drive_link
+Attendance Code: 5555
+https://docs.google.com/forms/d/e/1FAIpQLSfMDwrjYRLgNDJp7dg2Dw5lxGNm8iBeXl21iWYaFIgy_M1EYQ/viewform?usp=sf_link
+Reference links:
+Resilience4j - Circuit Breaker:
+https://docs.google.com/document/d/1tYb3SQhu1wsOJ5umSH3btchnB6JOrSPOn9v2rAfVekI/edit?usp=drive_link
+
+
+
+
+WEEK7
+
+
+✅ W7D1 - HmacSHA256 Authentication & Data Integrity [16Dec]
+Recording: 
+https://www.youtube.com/watch?v=1-8c3-GgBoc
+Notes: 
+https://docs.google.com/document/d/1_ygZBYGhHnkZAZ9eW1DwgMJgRFi81Dl_1naIfO_gJu0/edit?usp=drive_link
+Attendance Code: 7272
+https://docs.google.com/forms/d/e/1FAIpQLSfMDwrjYRLgNDJp7dg2Dw5lxGNm8iBeXl21iWYaFIgy_M1EYQ/viewform?usp=sf_link
+Reference links:
+HmacSHA256
+https://docs.google.com/document/d/1MyBEEmbanIp3k6PZX4muHR1rZYCYnbr2jr7AaqFQp6c/edit?usp=drive_link
+
+✅ W7D2 - Integrating Spring Security - Part1 [17Dec]
+Recording: 
+https://www.youtube.com/watch?v=95w6pkO-CyQ
+Notes: 
+https://docs.google.com/document/d/1GtOzSj9PDu--xzjdu1IOJkbpl73WtCgdXmeM39pYDKA/edit?usp=drive_link
+Attendance Code: 
+https://docs.google.com/forms/d/e/1FAIpQLSfMDwrjYRLgNDJp7dg2Dw5lxGNm8iBeXl21iWYaFIgy_M1EYQ/viewform?usp=sf_link
+Reference links:
+Spring Docs:
+https://docs.google.com/document/d/1USn-RKLeKCdnE7cYsCiu9GZqi0uFDSfMrHJZtwhW3K0/edit?usp=sharing
+Documentation:
+https://docs.spring.io/spring-security/reference/servlet/architecture.html
+https://docs.spring.io/spring-security/reference/servlet/authentication/architecture.html#servlet-authentication-securitycontextholder
+https://docs.spring.io/spring-security/reference/servlet/authorization/authorize-http-requests.html
+
+✅ W7D3 - Code HmacSha256 in HmacFilter - Filter ErrorHandling - Security Part2 [18Dec]
+Recording: 
+https://www.youtube.com/watch?v=RxtoV0IDRPE
+Notes: 
+https://docs.google.com/document/d/1bGcbpqqUWgPQSF6C89RtuultuhdzJAxrcczn02RZQhc/edit?usp=drive_link
+Attendance Code: 7777
+https://docs.google.com/forms/d/e/1FAIpQLSfMDwrjYRLgNDJp7dg2Dw5lxGNm8iBeXl21iWYaFIgy_M1EYQ/viewform?usp=sf_link
+Reference links:
+Spring Document for coding:
+https://docs.google.com/document/d/1USn-RKLeKCdnE7cYsCiu9GZqi0uFDSfMrHJZtwhW3K0/edit?usp=drive_link
